@@ -1,0 +1,3 @@
+[submodule "vendor/domready"]
+	path = vendor/domready
+	url = https://github.com/emandeguzman/domready.git

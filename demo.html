@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JsNotify Demo</title>
+
+    <script src="vendor/domready/ready.min.js"></script>
+
+    <link rel="stylesheet" href="jsnotify.css">
+    <script defer src="jsnotify.js"></script>
+</head>
+<body>
+
+    <div>
+        <h1>JsNotify</h1>
+        <p>Pure javascript port of <a href="https://notifyjs.jpillora.com/">Notify.js</a></p>    
+    </div>
+
+    <div id="usage">
+        <h2>Usage</h2>
+
+        <div>
+            <input type="text" class="target1" value="Hello">
+            <button type="button" class="button1">notify</button> 
+        </div>
+        <div>
+            <pre></pre>
+        </div>
+        <script class="script1">
+            domready(()=>{
+                document.querySelector(".button1").addEventListener("click", ()=>{
+                    jsnotify("Hi There!", document.querySelector(".target1"), {
+                        autoHide: false,
+                        // arrowShow: false,
+                        // arrowSize: 10,
+                        // className: "test data",
+                    })
+                })
+            })
+        </script>
+        <script>
+            domready(()=>{
+                document.querySelector("#usage pre").textContent = document.querySelector("#usage .script1").textContent;
+            })
+        </script>
+    </div>
+
+
+
+
+
+
+
+
+    <div hidden>
+    <div>
+        <form id="form1">
+            <table>
+                <tr><td><input type="text" name="name"></td></tr>
+                <tr><td><input type="password" name="pass"></td></tr>
+                <tr><td><button type="submit">Submit</button></td></tr>
+            </table>
+        </form>
+
+        <script>
+            form1.addEventListener("submit", (e)=>{
+                e.preventDefault();
+
+                $("input[name=name]").notify("Hello Box", {
+                    autoHide: false,
+                    arrowShow: false,
+                });
+            })
+        </script>
+    </div>    
+
+
+
+    <div>
+        <div class="flex">
+            <input type="text">
+            <input type="text" class="target2">
+            <input type="text">
+            <input type="text">
+        </div>
+        <button type="button" class="btn-flex">Show</button>
+        <button type="button" class="btn-flex2">Show2</button>
+        <script>
+            document.querySelector(".btn-flex").addEventListener("click", (e)=>{
+                $("div.flex > input:nth-child(3)").notify("Hello Box", {autoHide: false});
+            })
+            document.querySelector(".btn-flex2").addEventListener("click", (e)=>{
+                jsnotify("test msg", document.querySelector("div.flex > .target2"));
+            })
+        </script>
+    </div>
+
+
+    <div>
+        <div class="grid">
+            <input type="text">
+            <input type="text">
+            <input type="text" class="target">
+            <input type="text">
+        </div>
+        <button type="button" class="btn-grid">Show</button>
+        <script>
+            document.querySelector(".btn-grid").addEventListener("click", (e)=>{
+                $("div.grid > .target").notify("Hello Box", {autoHide: false});
+            })
+        </script>
+    </div>
+
+    <div>
+        <div class="scrollbar">
+            <div>
+                <input type="text">
+                <input type="text">
+                <input type="text" class="target">
+                <input type="text">
+            </div>
+        </div>
+        <button type="button" class="btn-scrollbar">Show</button>
+        <button type="button" class="btn-scrollbar-del">del</button>
+        <button type="button" class="btn-scrollbar-del1">del</button>
+        <script>
+            function listen(btn) {
+                const logScroll = () => {
+                    console.log("scrolled")
+                }
+
+                document.querySelector("div.scrollbar").addEventListener("scroll", logScroll);
+                btn.addEventListener("click", ()=>{
+                    document.querySelector("div.scrollbar").removeEventListener("scroll", logScroll);
+                });
+            }
+        </script>
+        <script>
+            document.querySelector(".btn-scrollbar").addEventListener("click", (e)=>{
+                $("div.scrollbar .target").notify("Hello Box", {autoHide: false});
+            })
+
+            // document.querySelector("div.scrollbar").addEventListener("scroll", ()=>{logScroll);
+            // document.querySelector("div.scrollbar").addEventListener("scroll", logScroll);
+
+            // document.querySelector(".btn-scrollbar-del").addEventListener("click", (e)=>{
+            //     document.querySelector("div.scrollbar").removeEventListener("scroll", logScroll);
+            // })
+            // listen(document.querySelector(".btn-scrollbar-del"));
+            // listen(document.querySelector(".btn-scrollbar-del1"));
+
+        </script>
+    </div>
+    <span id="msg">Hello There</span>
+    </div>
+</body>
+</html>

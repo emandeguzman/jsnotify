@@ -1,0 +1,41 @@
+js-notify {
+    // --arrow-size: 5px;
+    --color: #FFFFFF;
+    --background: #FF5555;
+    --padding-vert: .2em;
+    // --animation-speed: 2s;
+    --animation-speed: 400ms;
+
+    font-size: 1em;
+    position: relative;
+    // transform: translateY(calc(var(--arrow-size) * 1.5));
+    transform: translateY(var(--gap));
+    border-radius: var(--padding-vert);
+    padding: var(--padding-vert) .4em;
+    // display: flex;
+    // align-items: center;
+    color: var(--color);
+    background: var(--background);
+    z-index: 1;
+    transition: font-size var(--animation-speed);
+
+    &.show-arrow::after {
+        content: '';
+        position: absolute;
+        background: var(--background);
+        width: var(--arrow-size);
+        height: var(--arrow-size);
+        transform: rotate(45deg);
+        left: calc(var(--arrow-size) + var(--padding-vert));
+        top: calc(var(--arrow-size) / 2 * -1);
+        // transition: width var(--animation-speed), height var(--animation-speed)
+    }
+
+    &.close {
+        font-size: 0;
+        &::after {
+            width: 0;
+            height: 0;
+        }
+    }
+}
