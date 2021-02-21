@@ -110,12 +110,4 @@ js-notify {
             transform: translateX(calc(100% + (var(--gap) * 2)));
         }
     }
-
-    &.close {
-        font-size: 0;
-        &::after {
-            width: 0;
-            height: 0;
-        }
-    }
 }

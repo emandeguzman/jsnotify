@@ -103,13 +103,4 @@ js-notify.show.pos1-right > div {
   -webkit-transform: translateX(calc(100% + (var(--gap) * 2)));
           transform: translateX(calc(100% + (var(--gap) * 2)));
 }
-
-js-notify.close {
-  font-size: 0;
-}
-
-js-notify.close::after {
-  width: 0;
-  height: 0;
-}
 /*# sourceMappingURL=jsnotify.css.map */

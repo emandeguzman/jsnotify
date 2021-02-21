@@ -3,12 +3,11 @@ customElements.define("js-notify", class extends HTMLElement{
         this.target = el;
     }
     close = () => {
-        // this.addEventListener("transitionend", ()=>{
-        //     this.remove();
-        // });
+        this.addEventListener("transitionend", ()=>{
+            this.remove();
+        });
 
-        this.classList.add("close");
-        this.remove();
+        this.classList.remove('show');
     }
 
     _getBooleanAttribute = (attribName, defaultVal) => {
