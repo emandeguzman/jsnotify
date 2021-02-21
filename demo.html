@@ -24,7 +24,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-        }    </style>
+        }    
+        pre {
+            border: 1px solid #ccc;
+            padding: 1em;
+        }
+    </style>
     <script src="vendor/domready/ready.min.js"></script>
 
     <link rel="stylesheet" href="jsnotify.css">
@@ -183,136 +188,58 @@
         </script> -->
     </div>
 
-    <!-- 
-        box.setAttribute("data-clicktohide", conf.clickToHide ? "true" : "false");
-        box.setAttribute("data-autohide", conf.autoHide ? "true" : "false");
-        box.setAttribute("data-autohidedelay", conf.autoHideDelay);
-        box.setAttribute("data-arrowshow", conf.arrowShow ? "true" : "false");
-        box.setAttribute("data-arrowsize", conf.arrowSize);
-        // // position defines the notification position though uses the defaults below
-        // position: '...',
-        // // default positions
-        // elementPosition: 'bottom left',
-        // globalPosition: 'top right',
-        // // default style
-        // style: 'bootstrap',
-        box.setAttribute("data-classname", conf.className);
-        // // show animation
-        // showAnimation: 'slideDown',
-        // // show animation duration
-        // showDuration: 400,
-        // // hide animation
-        // hideAnimation: 'slideUp',
-        // // hide animation duration
-        // hideDuration: 200,
-        // // padding between element and notification
-        // gap: 2,    
-        box.setAttribute("data-gap", conf.gap); 
-    -->
-    
+    <div id="usage">
+        <h2>Usage</h2>
 
 
-
-    <div hidden>
-    <div>
-        <form id="form1">
-            <table>
-                <tr><td><input type="text" name="name"></td></tr>
-                <tr><td><input type="password" name="pass"></td></tr>
-                <tr><td><button type="submit">Submit</button></td></tr>
-            </table>
-        </form>
-
-        <script>
-            form1.addEventListener("submit", (e)=>{
-                e.preventDefault();
-
-                $("input[name=name]").notify("Hello Box", {
-                    autoHide: false,
-                    arrowShow: false,
-                });
-            })
-        </script>
-    </div>    
+        <h3>Load jsnotify css and javascript</h3>
+        <pre>
+&lt;head&gt;
+    &lt;link rel="stylesheet" href="path/to/jsnotify.css"&gt;
+    &lt;script defer src="path/to/jsnotify.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+        </pre>
 
 
-
-    <div>
-        <div class="flex">
-            <input type="text">
-            <input type="text" class="target2">
-            <input type="text">
-            <input type="text">
+        <h3>Show a notification</h3>
+        <div>
+            <pre>
+&lt;script&gt;
+    jsnotify("This is a notification", document.querySelector("input.target"), {autoHide: false, position: "bottom left"});
+&lt;/script&gt;
+            </pre>
         </div>
-        <button type="button" class="btn-flex">Show</button>
-        <button type="button" class="btn-flex2">Show2</button>
-        <script>
-            document.querySelector(".btn-flex").addEventListener("click", (e)=>{
-                $("div.flex > input:nth-child(3)").notify("Hello Box", {autoHide: false});
-            })
-            document.querySelector(".btn-flex2").addEventListener("click", (e)=>{
-                jsnotify("test msg", document.querySelector("div.flex > .target2"));
-            })
-        </script>
+
+
+        <h3>Syntax</h3>
+        <code>jsnotify(&lt;text message&gt;, &lt;target element&gt;, [options]</code>
+
+        <h3>Where:</h3>
+        <table>
+            <tr>
+                <td>text message</td>
+                <td>The text to be displayed in notification</td>
+            </tr>
+            <tr>
+                <td>target element</td>
+                <td>The HTML element to serve as reference point for the notification's position</td>
+            </tr>
+            <tr>
+                <td>options</td>
+                <td>An object containing options for the notification. See <a href="#demo">demo</a> for reference</td>
+            </tr>
+        </table>
     </div>
 
 
-    <div>
-        <div class="grid">
-            <input type="text">
-            <input type="text">
-            <input type="text" class="target">
-            <input type="text">
-        </div>
-        <button type="button" class="btn-grid">Show</button>
-        <script>
-            document.querySelector(".btn-grid").addEventListener("click", (e)=>{
-                $("div.grid > .target").notify("Hello Box", {autoHide: false});
-            })
-        </script>
+    <div id="todo">
+        <ul>
+            <li>Adjust notification position on page/element resize</li>
+            <li>Adjust notification position on scroll</li>
+        </ul>
     </div>
-
-    <div>
-        <div class="scrollbar">
-            <div>
-                <input type="text">
-                <input type="text">
-                <input type="text" class="target">
-                <input type="text">
-            </div>
-        </div>
-        <button type="button" class="btn-scrollbar">Show</button>
-        <button type="button" class="btn-scrollbar-del">del</button>
-        <button type="button" class="btn-scrollbar-del1">del</button>
-        <script>
-            function listen(btn) {
-                const logScroll = () => {
-                    // console.log("scrolled")
-                }
-
-                document.querySelector("div.scrollbar").addEventListener("scroll", logScroll);
-                btn.addEventListener("click", ()=>{
-                    document.querySelector("div.scrollbar").removeEventListener("scroll", logScroll);
-                });
-            }
-        </script>
-        <script>
-            document.querySelector(".btn-scrollbar").addEventListener("click", (e)=>{
-                $("div.scrollbar .target").notify("Hello Box", {autoHide: false});
-            })
-
-            // document.querySelector("div.scrollbar").addEventListener("scroll", ()=>{logScroll);
-            // document.querySelector("div.scrollbar").addEventListener("scroll", logScroll);
-
-            // document.querySelector(".btn-scrollbar-del").addEventListener("click", (e)=>{
-            //     document.querySelector("div.scrollbar").removeEventListener("scroll", logScroll);
-            // })
-            // listen(document.querySelector(".btn-scrollbar-del"));
-            // listen(document.querySelector(".btn-scrollbar-del1"));
-
-        </script>
-    </div>
-    <span id="msg">Hello There</span>
-    </div>
+    <br/>
+    <br/>
+    <br/>
 </body>
 </html>
