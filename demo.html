@@ -6,6 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JsNotify Demo</title>
 
+    <style>
+        .d-table {
+            display: table;
+        }
+        .d-table-row {
+            display: table-row;
+        }
+        .d-table-cell {
+            border-bottom: 1px solid #ccc;
+            padding: .5em 1em;
+            display: table-cell;
+        }
+        .target-wrapper {
+            height: 9em;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }    </style>
     <script src="vendor/domready/ready.min.js"></script>
 
     <link rel="stylesheet" href="jsnotify.css">
@@ -18,39 +37,179 @@
         <p>Pure javascript port of <a href="https://notifyjs.jpillora.com/">Notify.js</a></p>    
     </div>
 
-    <div id="usage">
-        <h2>Usage</h2>
+    <div id="demo">
+        <h2>Demo</h2>
 
-        <div>
-            <input type="text" class="target1" value="Hello">
-            <button type="button" class="button1">notify</button> 
+        <div class="target-wrapper">
+            <input type="text" class="target" disabled="disabled" value="Result pops here">
         </div>
-        <div>
+        <div class="d-table">
+            <div class="d-table-row">
+                <div class="d-table-cell">Message</div>
+                <div class="d-table-cell"><input type="text" class="message" value="Hello"></div>
+                <div class="d-table-cell">""</div>
+                <div class="d-table-cell">Text to be displayed</div>
+            </div>
+            <div class="d-table-row">
+                <div class="d-table-cell">clickToHide</div>
+                <div class="d-table-cell"><input type="checkbox" class="clickToHide" checked="checked"></div>
+                <div class="d-table-cell">true</div>
+                <div class="d-table-cell">Hides pop up on click</div>
+            </div>
+            <div class="d-table-row">
+                <div class="d-table-cell">autoHide</div>
+                <!-- <div class="d-table-cell"><input type="checkbox" class="autoHide" checked="checked"></div> -->
+                <div class="d-table-cell"><input type="checkbox" class="autoHide"></div> <!-- for debug -->
+                <div class="d-table-cell">true</div>
+                <div class="d-table-cell">Hides pop up after autoHideDelay elapsed</div>
+            </div>
+            <div class="d-table-row">
+                <div class="d-table-cell">autoHideDelay</div>
+                <div class="d-table-cell"><input type="text" class="autoHideDelay" value="5000"></div>
+                <div class="d-table-cell">5000</div>
+                <div class="d-table-cell">If autoHide is true, delay in milliseconds before pop up is hidden</div>
+            </div>
+            <div class="d-table-row">
+                <div class="d-table-cell">arrowShow</div>
+                <div class="d-table-cell"><input type="checkbox" class="arrowShow" checked="checked"></div>
+                <div class="d-table-cell">true</div>
+                <div class="d-table-cell">If true, show the arrow pointing at the target element</div>
+            </div>
+            <div class="d-table-row">
+                <div class="d-table-cell">arrowSize</div>
+                <div class="d-table-cell"><input type="text" class="arrowSize" value="5"></div>
+                <div class="d-table-cell">5</div>
+                <div class="d-table-cell">If arrowShow is true, sets the arrow size in pixels</div>
+            </div>
+            <div class="d-table-row">
+                <div class="d-table-cell">position</div>
+                <div class="d-table-cell">
+                    <select class="position">
+                        <option selected="selected">top left</option>   <!-- for debug -->
+                        <option>top center</option>
+                        <option>top right</option>
+                        <option>right top</option>
+                        <option>right middle</option>
+                        <option>right bottom</option>
+                        <!-- <option selected="selected">bottom left</option> -->
+                        <option>bottom left</option>
+                        <option>bottom center</option>
+                        <option>bottom right</option>
+                        <option>left top</option>
+                        <option>left middle</option>
+                        <option>left bottom</option>
+                    </select>
+                </div>
+                <div class="d-table-cell">"bottom left"</div>
+                <div class="d-table-cell">
+                    <p>Position of notification around target element.</p>
+                    <p>Possible values are</p>
+                    <ul>
+                        <li>top left</li>
+                        <li>top center</li>
+                        <li>top right</li>
+                        <li>right top</li>
+                        <li>right middle</li>
+                        <li>right bottom</li>
+                        <li>bottom left</li>
+                        <li>bottom center</li>
+                        <li>bottom right</li>
+                        <li>left top</li>
+                        <li>left middle</li>
+                        <li>left bottom</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 
+            // position defines the notification position though uses the defaults below
+            position: '...',
+            // default positions
+            elementPosition: 'bottom left',
+            globalPosition: 'top right',
+            // default style
+            style: 'bootstrap',
+            -->
+            <div class="d-table-row">
+                <div class="d-table-cell">className</div>
+                <div class="d-table-cell"><input type="text" class="className" value="error"></div>
+                <div class="d-table-cell">"error"</div>
+                <div class="d-table-cell">class name set for pop up element. Pre-defined classes are "error", "success", "warn", "info"</div>
+            </div>
+            <!--
+            // show animation
+            showAnimation: 'slideDown',
+            // show animation duration
+            showDuration: 400,
+            // hide animation
+            hideAnimation: 'slideUp',
+            // hide animation duration
+            hideDuration: 200,
+            -->
+            <div class="d-table-row">
+                <div class="d-table-cell">gap</div>
+                <div class="d-table-cell"><input type="text" class="gap" value="2"></div>
+                <div class="d-table-cell">2</div>
+                <div class="d-table-cell">padding between target element and notification in pixels</div>
+            </div>
+            <div><button type="button" class="btnShow">show notification</button></div>
+        </div>
+        <!-- <div>
             <pre></pre>
-        </div>
+        </div> -->
         <script class="script1">
             domready(()=>{
-                document.querySelector(".button1").addEventListener("click", ()=>{
-                    jsnotify("Hi There!", document.querySelector(".target1"), {
-                        autoHide: false,
-                        // arrowShow: false,
-                        // arrowSize: 10,
-                        // className: "test data",
-                    })
+                document.querySelector(".btnShow").addEventListener("click", ()=>{
+                    const msg = document.querySelector(".message").value;
+                    const options = {
+                        clickToHide: document.querySelector(".clickToHide").checked ? true : false,
+                        autoHide: document.querySelector(".autoHide").checked ? true : false,
+                        autoHideDelay: parseInt(document.querySelector(".autoHideDelay").value),
+                        arrowShow: document.querySelector(".arrowShow").checked ? true : false,
+                        arrowSize: parseInt(document.querySelector(".arrowSize").value),
+                        position: document.querySelector(".position").value,
+                        className: document.querySelector(".className").value,
+                        gap: document.querySelector(".gap").value,
+                    };
+
+                    console.log(options);
+                    jsnotify(msg, document.querySelector(".target"), options);
                 })
             })
         </script>
-        <script>
+        <!-- <script>
             domready(()=>{
                 document.querySelector("#usage pre").textContent = document.querySelector("#usage .script1").textContent;
             })
-        </script>
+        </script> -->
     </div>
 
-
-
-
-
+    <!-- 
+        box.setAttribute("data-clicktohide", conf.clickToHide ? "true" : "false");
+        box.setAttribute("data-autohide", conf.autoHide ? "true" : "false");
+        box.setAttribute("data-autohidedelay", conf.autoHideDelay);
+        box.setAttribute("data-arrowshow", conf.arrowShow ? "true" : "false");
+        box.setAttribute("data-arrowsize", conf.arrowSize);
+        // // position defines the notification position though uses the defaults below
+        // position: '...',
+        // // default positions
+        // elementPosition: 'bottom left',
+        // globalPosition: 'top right',
+        // // default style
+        // style: 'bootstrap',
+        box.setAttribute("data-classname", conf.className);
+        // // show animation
+        // showAnimation: 'slideDown',
+        // // show animation duration
+        // showDuration: 400,
+        // // hide animation
+        // hideAnimation: 'slideUp',
+        // // hide animation duration
+        // hideDuration: 200,
+        // // padding between element and notification
+        // gap: 2,    
+        box.setAttribute("data-gap", conf.gap); 
+    -->
+    
 
 
 
@@ -128,7 +287,7 @@
         <script>
             function listen(btn) {
                 const logScroll = () => {
-                    console.log("scrolled")
+                    // console.log("scrolled")
                 }
 
                 document.querySelector("div.scrollbar").addEventListener("scroll", logScroll);

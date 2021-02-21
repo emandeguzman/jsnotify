@@ -1,5 +1,6 @@
 js-notify {
     // --arrow-size: 5px;
+    --arrow-edge-margin: .4em;
     --color: #FFFFFF;
     --background: #FF5555;
     --padding-vert: .2em;
@@ -7,28 +8,107 @@ js-notify {
     --animation-speed: 400ms;
 
     font-size: 1em;
-    position: relative;
+    position: absolute;
+    padding: var(--gap);
     // transform: translateY(calc(var(--arrow-size) * 1.5));
-    transform: translateY(var(--gap));
-    border-radius: var(--padding-vert);
-    padding: var(--padding-vert) .4em;
+    // transform: translateY(var(--gap));
+    // border-radius: var(--padding-vert);
+    // padding: var(--padding-vert) .4em;
     // display: flex;
     // align-items: center;
-    color: var(--color);
-    background: var(--background);
     z-index: 1;
-    transition: font-size var(--animation-speed);
 
-    &.show-arrow::after {
-        content: '';
-        position: absolute;
+    >div {
+        border-radius: var(--padding-vert);
+        padding: var(--padding-vert) .4em;
+        color: var(--color);
         background: var(--background);
-        width: var(--arrow-size);
-        height: var(--arrow-size);
-        transform: rotate(45deg);
-        left: calc(var(--arrow-size) + var(--padding-vert));
-        top: calc(var(--arrow-size) / 2 * -1);
-        // transition: width var(--animation-speed), height var(--animation-speed)
+        // transition: transform var(--animation-speed);
+        transition: all var(--animation-speed);
+    }
+
+    &.show-arrow {
+        >div::after {
+            content: '';
+            position: absolute;
+            background: var(--background);
+            width: var(--arrow-size);
+            height: var(--arrow-size);
+            transform: rotate(45deg);
+            // left: calc(var(--arrow-size) + var(--padding-vert));
+            // top: calc(var(--arrow-size) / 2 * -1);
+            z-index: -1;
+            // transition: width var(--animation-speed), height var(--animation-speed)
+        }
+
+        &.pos1-top >div::after {
+            top: calc(100% - (var(--arrow-size) / 2));
+        }
+        &.pos1-bottom >div::after {
+            top: calc(var(--arrow-size) / 2 * -1);
+        }
+        &.pos1-left >div::after {
+            left: calc(100% - (var(--arrow-size) / 2));
+        }
+        &.pos1-right >div::after {
+            left: calc(var(--arrow-size) / 2 * -1);
+        }
+
+        &.pos2-left >div::after{
+            left: var(--arrow-edge-margin);
+        }
+        &.pos2-center >div::after{
+            left: calc(50% - (var(--arrow-edge-margin) / 2));
+        }
+        &.pos2-right >div::after{
+            left: calc(100% - var(--arrow-edge-margin));
+        }
+        &.pos2-top >div::after{
+            top: var(--arrow-edge-margin);
+        }
+        &.pos2-middle >div::after{
+            top: calc(50% - (var(--arrow-edge-margin) / 2));
+        }
+        &.pos2-bottom >div::after{
+            top: calc(100% - var(--arrow-edge-margin));
+        }
+        
+
+    //     &.pos-top {
+    //         // transform: translateY(calc(var(--gap) * -1));
+    //         &::after {
+    //             top: calc(100% - var(--arrow-size) / 2);
+    //         }
+    //     }
+    }
+    // &.error >div {
+    //     --background: #ff5555;
+    // }
+    &.success >div {
+        --color: #000;
+        --background: #55ff55;
+    }
+    &.warn >div {
+        --background: #eb8b1d;
+    }
+    &.info >div {
+        --color: #000;
+        --background: #f4ff57;
+    }
+
+    &.show {
+        &.pos1-top >div {
+            transform: translateY(calc(-100% - (var(--gap) * 2)));
+        }
+        &.pos1-bottom >div {
+            transform: translateY(calc(100% + (var(--gap) * 2)));
+        }
+        &.pos1-left >div {
+            transform: translateX(calc(-100% - (var(--gap) * 2)));
+        }
+        &.pos1-right >div {
+            transform: translateX(calc(100% + (var(--gap) * 2)));
+        }
     }
 
     &.close {

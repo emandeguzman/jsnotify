@@ -1,11 +1,14 @@
 customElements.define("js-notify", class extends HTMLElement{
+    targetElement = (el) =>{
+        this.target = el;
+    }
     close = () => {
-        this.addEventListener("transitionend", ()=>{
-            this.remove();
-        });
+        // this.addEventListener("transitionend", ()=>{
+        //     this.remove();
+        // });
 
         this.classList.add("close");
-        this.style.fontSize = "0px";
+        this.remove();
     }
 
     _getBooleanAttribute = (attribName, defaultVal) => {
@@ -82,10 +85,17 @@ customElements.define("js-notify", class extends HTMLElement{
     }
 
     get arrowSize() {
-        return this._getIntAttribute("data-arrowsize", 5000);
+        return this._getIntAttribute("data-arrowsize", 5);
     }
     set arrowSize(val) {
         this._setIntAttribute("data-arrowsize", val);
+    }
+
+    get position() {
+        return this._getStringAttribute("data-position", "bottom left");
+    }
+    set position(val) {
+        this._setStringAttribute("data-position", val);
     }
 
     get className() {
@@ -105,37 +115,114 @@ customElements.define("js-notify", class extends HTMLElement{
 
 
     connectedCallback(){
-        this.style.fontSize = `0px`;
-
-        requestAnimationFrame(()=>{
-            requestAnimationFrame(()=>{
-                this.style.removeProperty(`font-size`);
-            })
-        })
+        const content = document.createElement("DIV");
+        content.textContent = this.textContent;
+        this.innerHTML = "";
+        this.appendChild(content);
+        this.style.position = "absolute";
+        this.style.overflow = "hidden";
+        content.style.position = "relative";
+        // content.style.transform = `translateY(calc(100% + var(--gap)))`;
 
         if (this.clickToHide) {
-            this.addEventListener("click", ()=>{
+            content.addEventListener("click", ()=>{
                 this.close();
             });
         }
+
+
 
         if (this.autoHide) {
             setTimeout(this.close, this.autoHideDelay);
         }
 
-        console.log('this.arrowShow', this.arrowShow);
+
+
+        // console.log('this.arrowShow', this.arrowShow);
         if (this.arrowShow) {
             this.classList.add("show-arrow")
         }
 
+
+
         this.style.setProperty('--arrow-size', `${this.arrowSize}px`);
+
+
 
         this.className.split(/\s+/).map(cn=>{
             this.classList.add(cn);
         })
         
+
+
         this.style.setProperty('--gap', `${this.gap}px`);
 
+
+        //position & arrow position & set initial position for ingress animation
+        const pos = this.position.split(/\s+/);
+        switch(pos[1]) {
+            case 'left':
+                this.style.setProperty('left', `${this.target.offsetLeft}px`);
+                this.classList.add('pos2-left');
+            break;
+            case 'center':
+                this.style.setProperty('left', `${this.target.offsetLeft + (this.target.offsetWidth / 2) - (this.offsetWidth / 2)}px`);
+                this.classList.add('pos2-center');
+            break;
+            case 'right':
+                this.style.setProperty('left', `${this.target.offsetLeft + this.target.offsetWidth - this.offsetWidth}px`);
+                this.classList.add('pos2-right');
+            break;
+            case 'top':
+                this.style.setProperty('top', `${this.target.offsetTop}px`);
+                this.classList.add('pos2-top');
+            break;
+            case 'middle':
+                this.style.setProperty('top', `${this.target.offsetTop + (this.target.offsetHeight / 2) - (this.offsetHeight / 2)}px`);
+                this.classList.add('pos2-middle');
+            break;
+            case 'bottom':
+                this.style.setProperty('top', `${this.target.offsetTop + this.target.offsetHeight - this.offsetHeight}px`);
+                this.classList.add('pos2-bottom');
+            break;
+        }
+        switch(pos[0]) {
+            case 'top':
+                this.style.setProperty('top', `${this.target.offsetTop - this.offsetHeight}px`);
+                this.classList.add('pos1-top');
+                content.style.setProperty('top', `${this.offsetHeight}px`);
+            break;
+            case 'bottom':
+                this.style.setProperty('top', `${this.target.offsetTop + this.target.offsetHeight}px`);
+                this.classList.add('pos1-bottom');
+                content.style.setProperty('top', `-${this.offsetHeight}px`);
+            break;
+            case 'left':
+                this.style.setProperty('left', `${this.target.offsetLeft - this.offsetWidth}px`);
+                this.classList.add('pos1-left');
+                content.style.setProperty('left', `${this.offsetWidth}px`);
+            break;
+            case 'right':
+                this.style.setProperty('left', `${this.target.offsetLeft + this.target.offsetWidth}px`);
+                this.classList.add('pos1-right');
+                content.style.setProperty('left', `-${this.offsetWidth}px`);
+            break;
+        }
+
+
+        //animate ingress
+        requestAnimationFrame(()=>{
+            requestAnimationFrame(()=>{
+                requestAnimationFrame(()=>{
+                    // content.style.transform = `translate(0%, 0%)`;
+                    this.classList.add("show");
+                })
+            })
+        })
+    }
+
+    disconnectedCallback(){
+        console.log("disconnected");
     }
 
     // static get observedAttributes() {
@@ -156,35 +243,36 @@ function jsnotify(msg, target, options = {}) {
         // arrow size in pixels
         arrowSize: 5,
         // position defines the notification position though uses the defaults below
-        position: '...',
-        // default positions
-        elementPosition: 'bottom left',
-        globalPosition: 'top right',
-        // default style
-        style: 'bootstrap',
+        position: 'bottom left',
+        // // default positions
+        // elementPosition: 'bottom left',
+        // globalPosition: 'top right',
+        // // default style
+        // style: 'bootstrap',
         // default class (string or [string])
         className: 'error',
-        // show animation
-        showAnimation: 'slideDown',
-        // show animation duration
-        showDuration: 400,
-        // hide animation
-        hideAnimation: 'slideUp',
-        // hide animation duration
-        hideDuration: 200,
-        // padding between element and notification
+        // // show animation
+        // showAnimation: 'slideDown',
+        // // show animation duration
+        // showDuration: 400,
+        // // hide animation
+        // hideAnimation: 'slideUp',
+        // // hide animation duration
+        // hideDuration: 200,
+        // // padding between element and notification
         gap: 2,
         // USER OPTIONS
         ...options
     }
 
-    console.log(options);
-    console.log(conf);
+    // console.log(options);
+    // console.log(conf);
 
     const box = document.createElement("js-notify");
-    box.style.position = "absolute";
-    box.style.top = `${target.offsetTop + target.scrollHeight + (target.offsetHeight - target.clientHeight)}px`;
-    box.style.left = `${target.offsetLeft}px`;
+    box.targetElement(target); 
+    // box.style.position = "absolute";
+    // box.style.top = `${target.offsetTop + target.scrollHeight + (target.offsetHeight - target.clientHeight)}px`;
+    // box.style.left = `${target.offsetLeft}px`;
     box.textContent = msg;
 
     box.setAttribute("data-clicktohide", conf.clickToHide ? "true" : "false");
@@ -192,6 +280,7 @@ function jsnotify(msg, target, options = {}) {
     box.setAttribute("data-autohidedelay", conf.autoHideDelay);
     box.setAttribute("data-arrowshow", conf.arrowShow ? "true" : "false");
     box.setAttribute("data-arrowsize", conf.arrowSize);
+    box.setAttribute("data-position", conf.position);
     // // position defines the notification position though uses the defaults below
     // position: '...',
     // // default positions

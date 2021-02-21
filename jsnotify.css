@@ -1,22 +1,25 @@
 js-notify {
+  --arrow-edge-margin: .4em;
   --color: #FFFFFF;
   --background: #FF5555;
   --padding-vert: .2em;
   --animation-speed: 400ms;
   font-size: 1em;
-  position: relative;
-  -webkit-transform: translateY(var(--gap));
-          transform: translateY(var(--gap));
+  position: absolute;
+  padding: var(--gap);
+  z-index: 1;
+}
+
+js-notify > div {
   border-radius: var(--padding-vert);
   padding: var(--padding-vert) 0.4em;
   color: var(--color);
   background: var(--background);
-  z-index: 1;
-  -webkit-transition: font-size var(--animation-speed);
-  transition: font-size var(--animation-speed);
+  -webkit-transition: all var(--animation-speed);
+  transition: all var(--animation-speed);
 }
 
-js-notify.show-arrow::after {
+js-notify.show-arrow > div::after {
   content: '';
   position: absolute;
   background: var(--background);
@@ -24,8 +27,81 @@ js-notify.show-arrow::after {
   height: var(--arrow-size);
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
-  left: calc(var(--arrow-size) + var(--padding-vert));
+  z-index: -1;
+}
+
+js-notify.show-arrow.pos1-top > div::after {
+  top: calc(100% - (var(--arrow-size) / 2));
+}
+
+js-notify.show-arrow.pos1-bottom > div::after {
   top: calc(var(--arrow-size) / 2 * -1);
+}
+
+js-notify.show-arrow.pos1-left > div::after {
+  left: calc(100% - (var(--arrow-size) / 2));
+}
+
+js-notify.show-arrow.pos1-right > div::after {
+  left: calc(var(--arrow-size) / 2 * -1);
+}
+
+js-notify.show-arrow.pos2-left > div::after {
+  left: var(--arrow-edge-margin);
+}
+
+js-notify.show-arrow.pos2-center > div::after {
+  left: calc(50% - (var(--arrow-edge-margin) / 2));
+}
+
+js-notify.show-arrow.pos2-right > div::after {
+  left: calc(100% - var(--arrow-edge-margin));
+}
+
+js-notify.show-arrow.pos2-top > div::after {
+  top: var(--arrow-edge-margin);
+}
+
+js-notify.show-arrow.pos2-middle > div::after {
+  top: calc(50% - (var(--arrow-edge-margin) / 2));
+}
+
+js-notify.show-arrow.pos2-bottom > div::after {
+  top: calc(100% - var(--arrow-edge-margin));
+}
+
+js-notify.success > div {
+  --color: #000;
+  --background: #55ff55;
+}
+
+js-notify.warn > div {
+  --background: #eb8b1d;
+}
+
+js-notify.info > div {
+  --color: #000;
+  --background: #f4ff57;
+}
+
+js-notify.show.pos1-top > div {
+  -webkit-transform: translateY(calc(-100% - (var(--gap) * 2)));
+          transform: translateY(calc(-100% - (var(--gap) * 2)));
+}
+
+js-notify.show.pos1-bottom > div {
+  -webkit-transform: translateY(calc(100% + (var(--gap) * 2)));
+          transform: translateY(calc(100% + (var(--gap) * 2)));
+}
+
+js-notify.show.pos1-left > div {
+  -webkit-transform: translateX(calc(-100% - (var(--gap) * 2)));
+          transform: translateX(calc(-100% - (var(--gap) * 2)));
+}
+
+js-notify.show.pos1-right > div {
+  -webkit-transform: translateX(calc(100% + (var(--gap) * 2)));
+          transform: translateX(calc(100% + (var(--gap) * 2)));
 }
 
 js-notify.close {
