@@ -5,8 +5,9 @@ customElements.define("js-notify", class extends HTMLElement{
     close = () => {
         this.addEventListener("transitionend", ()=>{
             this.remove();
-        });
+        },{once: true});
 
+        this.style.overflow = "hidden";
         this.classList.remove('show');
     }
 
@@ -137,7 +138,6 @@ customElements.define("js-notify", class extends HTMLElement{
 
 
 
-        // console.log('this.arrowShow', this.arrowShow);
         if (this.arrowShow) {
             this.classList.add("show-arrow")
         }
@@ -214,19 +214,15 @@ customElements.define("js-notify", class extends HTMLElement{
             requestAnimationFrame(()=>{
                 requestAnimationFrame(()=>{
                     // content.style.transform = `translate(0%, 0%)`;
+                    this.addEventListener("transitionend", ()=>{
+                        this.style.overflow = "visible";
+                    },{once: true});
+
                     this.classList.add("show");
                 })
             })
         })
     }
-
-    disconnectedCallback(){
-        console.log("disconnected");
-    }
-
-    // static get observedAttributes() {
-    //     return ['data-auto'];
-    // }
 });
 
 function jsnotify(msg, target, options = {}) {
@@ -263,9 +259,6 @@ function jsnotify(msg, target, options = {}) {
         // USER OPTIONS
         ...options
     }
-
-    // console.log(options);
-    // console.log(conf);
 
     const box = document.createElement("js-notify");
     box.targetElement(target); 

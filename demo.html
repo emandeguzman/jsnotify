@@ -63,8 +63,7 @@
             </div>
             <div class="d-table-row">
                 <div class="d-table-cell">autoHide</div>
-                <!-- <div class="d-table-cell"><input type="checkbox" class="autoHide" checked="checked"></div> -->
-                <div class="d-table-cell"><input type="checkbox" class="autoHide"></div> <!-- for debug -->
+                <div class="d-table-cell"><input type="checkbox" class="autoHide" checked="checked"></div>
                 <div class="d-table-cell">true</div>
                 <div class="d-table-cell">Hides pop up after autoHideDelay elapsed</div>
             </div>
@@ -90,13 +89,12 @@
                 <div class="d-table-cell">position</div>
                 <div class="d-table-cell">
                     <select class="position">
-                        <option selected="selected">top left</option>   <!-- for debug -->
+                        <option>top left</option>
                         <option>top center</option>
                         <option>top right</option>
                         <option>right top</option>
                         <option>right middle</option>
-                        <option>right bottom</option>
-                        <!-- <option selected="selected">bottom left</option> -->
+                        <option selected="selected">bottom left</option>
                         <option>bottom left</option>
                         <option>bottom center</option>
                         <option>bottom right</option>
@@ -176,7 +174,6 @@
                         gap: document.querySelector(".gap").value,
                     };
 
-                    console.log(options);
                     jsnotify(msg, document.querySelector(".target"), options);
                 })
             })
