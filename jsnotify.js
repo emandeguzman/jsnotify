@@ -11,6 +11,59 @@ customElements.define("js-notify", class extends HTMLElement{
         this.classList.remove('show');
     }
 
+    setPosition = () => {
+        const content = this.querySelector(":scope > div");
+        const pos = this.position.split(/\s+/);
+        switch(pos[1]) {
+            case 'left':
+                this.style.setProperty('left', `${this.target.offsetLeft}px`);
+                this.classList.add('pos2-left');
+            break;
+            case 'center':
+                this.style.setProperty('left', `${this.target.offsetLeft + (this.target.offsetWidth / 2) - (this.offsetWidth / 2)}px`);
+                this.classList.add('pos2-center');
+            break;
+            case 'right':
+                this.style.setProperty('left', `${this.target.offsetLeft + this.target.offsetWidth - this.offsetWidth}px`);
+                this.classList.add('pos2-right');
+            break;
+            case 'top':
+                this.style.setProperty('top', `${this.target.offsetTop}px`);
+                this.classList.add('pos2-top');
+            break;
+            case 'middle':
+                this.style.setProperty('top', `${this.target.offsetTop + (this.target.offsetHeight / 2) - (this.offsetHeight / 2)}px`);
+                this.classList.add('pos2-middle');
+            break;
+            case 'bottom':
+                this.style.setProperty('top', `${this.target.offsetTop + this.target.offsetHeight - this.offsetHeight}px`);
+                this.classList.add('pos2-bottom');
+            break;
+        }
+        switch(pos[0]) {
+            case 'top':
+                this.style.setProperty('top', `${this.target.offsetTop - this.offsetHeight}px`);
+                this.classList.add('pos1-top');
+                content.style.setProperty('top', `${this.offsetHeight}px`);
+            break;
+            case 'bottom':
+                this.style.setProperty('top', `${this.target.offsetTop + this.target.offsetHeight}px`);
+                this.classList.add('pos1-bottom');
+                content.style.setProperty('top', `-${this.offsetHeight}px`);
+            break;
+            case 'left':
+                this.style.setProperty('left', `${this.target.offsetLeft - this.offsetWidth}px`);
+                this.classList.add('pos1-left');
+                content.style.setProperty('left', `${this.offsetWidth}px`);
+            break;
+            case 'right':
+                this.style.setProperty('left', `${this.target.offsetLeft + this.target.offsetWidth}px`);
+                this.classList.add('pos1-right');
+                content.style.setProperty('left', `-${this.offsetWidth}px`);
+            break;
+        }
+    }
+
     _getBooleanAttribute = (attribName, defaultVal) => {
         let retval = this.getAttribute(attribName);
         if (retval === null) return defaultVal;
@@ -158,55 +211,7 @@ customElements.define("js-notify", class extends HTMLElement{
 
 
         //position & arrow position & set initial position for ingress animation
-        const pos = this.position.split(/\s+/);
-        switch(pos[1]) {
-            case 'left':
-                this.style.setProperty('left', `${this.target.offsetLeft}px`);
-                this.classList.add('pos2-left');
-            break;
-            case 'center':
-                this.style.setProperty('left', `${this.target.offsetLeft + (this.target.offsetWidth / 2) - (this.offsetWidth / 2)}px`);
-                this.classList.add('pos2-center');
-            break;
-            case 'right':
-                this.style.setProperty('left', `${this.target.offsetLeft + this.target.offsetWidth - this.offsetWidth}px`);
-                this.classList.add('pos2-right');
-            break;
-            case 'top':
-                this.style.setProperty('top', `${this.target.offsetTop}px`);
-                this.classList.add('pos2-top');
-            break;
-            case 'middle':
-                this.style.setProperty('top', `${this.target.offsetTop + (this.target.offsetHeight / 2) - (this.offsetHeight / 2)}px`);
-                this.classList.add('pos2-middle');
-            break;
-            case 'bottom':
-                this.style.setProperty('top', `${this.target.offsetTop + this.target.offsetHeight - this.offsetHeight}px`);
-                this.classList.add('pos2-bottom');
-            break;
-        }
-        switch(pos[0]) {
-            case 'top':
-                this.style.setProperty('top', `${this.target.offsetTop - this.offsetHeight}px`);
-                this.classList.add('pos1-top');
-                content.style.setProperty('top', `${this.offsetHeight}px`);
-            break;
-            case 'bottom':
-                this.style.setProperty('top', `${this.target.offsetTop + this.target.offsetHeight}px`);
-                this.classList.add('pos1-bottom');
-                content.style.setProperty('top', `-${this.offsetHeight}px`);
-            break;
-            case 'left':
-                this.style.setProperty('left', `${this.target.offsetLeft - this.offsetWidth}px`);
-                this.classList.add('pos1-left');
-                content.style.setProperty('left', `${this.offsetWidth}px`);
-            break;
-            case 'right':
-                this.style.setProperty('left', `${this.target.offsetLeft + this.target.offsetWidth}px`);
-                this.classList.add('pos1-right');
-                content.style.setProperty('left', `-${this.offsetWidth}px`);
-            break;
-        }
+        this.setPosition();
 
 
         //animate ingress
@@ -222,6 +227,17 @@ customElements.define("js-notify", class extends HTMLElement{
                 })
             })
         })
+
+        //reposition on window resize
+        window.addEventListener("resize", this.setPosition);
+
+        // //reposition on window scroll
+        // window.addEventListener("scroll", this.setPosition);
+    }
+
+    disconnectedCallback(){
+        //remove window resize listener
+        window.removeEventListener("resize", this.setPosition);
     }
 });
 
