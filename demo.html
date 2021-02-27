@@ -7,236 +7,190 @@
     <title>JsNotify Demo</title>
 
     <style>
-        .d-table {
-            display: table;
-        }
-        .d-table-row {
-            display: table-row;
-        }
-        .d-table-cell {
-            border-bottom: 1px solid #ccc;
-            padding: .5em 1em;
-            display: table-cell;
-        }
-        .target-wrapper {
-            height: 9em;
+        .demo {
             border: 1px solid #ccc;
+            display: grid;
+            grid-template-areas: "options output" "options code";
+            grid-template-columns: auto 1fr;
+        }
+        .demo .options { grid-area: options; }
+        .demo .output { grid-area: output; }
+        .demo .code { grid-area: code; }
+
+        .demo .options {
+            border-right: 1px solid #ccc;
+            padding: 1em 1.5em;
+        }
+        .demo .output {
+            border-bottom: 1px solid #ccc;
+            padding: 3em;
             display: flex;
             align-items: center;
             justify-content: center;
-        }    
-        pre {
-            border: 1px solid #ccc;
-            padding: 1em;
+        }
+        .demo .output > input {
+            padding: 1.5em;
+        }
+        .demo .code {
+            padding: .5em 1.5em;
+        }
+
+
+        .positions table {
+            width: 100%;
+        }
+        .positions td {
+            width: 35%;
+        }
+        .positions .target {
+            padding: 4em;
         }
     </style>
-    <script src="vendor/domready/ready.min.js"></script>
 
     <link rel="stylesheet" href="jsnotify.css">
-    <script defer src="jsnotify.js"></script>
+    <script src="jsnotify.js"></script>
 </head>
 <body>
 
     <div>
-        <h1>JsNotify</h1>
-        <p>Pure javascript port of <a href="https://notifyjs.jpillora.com/">Notify.js</a></p>    
+        <h1>JsNotify Demo</h1>
     </div>
 
-    <div id="demo">
-        <h2>Demo</h2>
 
-        <div class="target-wrapper">
-            <input type="text" class="target" disabled="disabled" value="Result pops here">
+    <div class="demo">
+        <div class="options">
+            <table>
+                <tr>
+                    <td>text</td>
+                    <td><input type="text" name="text" value="Hello"></td>
+                </tr>
+                <tr>
+                    <td>clickToHide</td>
+                    <td><input type="checkbox" name="clickToHide" checked="checked"></td>
+                </tr>
+                <tr>
+                    <td>autoHide</td>
+                    <td><input type="checkbox" name="autoHide" checked="checked"></td>
+                </tr>
+                <tr>
+                    <td>autoHideDelay</td>
+                    <td><input type="text" name="autoHideDelay" value="5000"></td>
+                </tr>
+                <tr>
+                    <td>arrowShow</td>
+                    <td><input type="checkbox" name="arrowShow" checked="checked"></td>
+                </tr>
+                <tr>
+                    <td>arrowSize</td>
+                    <td><input type="text" name="arrowSize" value="5"></td>
+                </tr>
+                <tr>
+                    <td>position</td>
+                    <td>
+                        <select name="position">
+                            <option>bottom left</option>
+                            <option>bottom center</option>
+                            <option>bottom right</option>
+                            <option>top left</option>
+                            <option>top center</option>
+                            <option>top right</option>
+                            <option>left top</option>
+                            <option>left middle</option>
+                            <option>left bottom</option>
+                            <option>right top</option>
+                            <option>right middle</option>
+                            <option>right bottom</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>className</td>
+                    <td>
+                        <select name="className">
+                            <option>error</option>
+                            <option>success</option>
+                            <option>warn</option>
+                            <option>info</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>gap</td>
+                    <td><input type="text" name="gap" value="2"></td>
+                </tr>
+            </table>
+            <div><button type="button" class="btnShow">Show</button></div>
         </div>
-        <div class="d-table">
-            <div class="d-table-row">
-                <div class="d-table-cell">Message</div>
-                <div class="d-table-cell"><input type="text" class="message" value="Hello"></div>
-                <div class="d-table-cell">""</div>
-                <div class="d-table-cell">Text to be displayed</div>
-            </div>
-            <div class="d-table-row">
-                <div class="d-table-cell">clickToHide</div>
-                <div class="d-table-cell"><input type="checkbox" class="clickToHide" checked="checked"></div>
-                <div class="d-table-cell">true</div>
-                <div class="d-table-cell">Hides pop up on click</div>
-            </div>
-            <div class="d-table-row">
-                <div class="d-table-cell">autoHide</div>
-                <div class="d-table-cell"><input type="checkbox" class="autoHide" checked="checked"></div>
-                <div class="d-table-cell">true</div>
-                <div class="d-table-cell">Hides pop up after autoHideDelay elapsed</div>
-            </div>
-            <div class="d-table-row">
-                <div class="d-table-cell">autoHideDelay</div>
-                <div class="d-table-cell"><input type="text" class="autoHideDelay" value="5000"></div>
-                <div class="d-table-cell">5000</div>
-                <div class="d-table-cell">If autoHide is true, delay in milliseconds before pop up is hidden</div>
-            </div>
-            <div class="d-table-row">
-                <div class="d-table-cell">arrowShow</div>
-                <div class="d-table-cell"><input type="checkbox" class="arrowShow" checked="checked"></div>
-                <div class="d-table-cell">true</div>
-                <div class="d-table-cell">If true, show the arrow pointing at the target element</div>
-            </div>
-            <div class="d-table-row">
-                <div class="d-table-cell">arrowSize</div>
-                <div class="d-table-cell"><input type="text" class="arrowSize" value="5"></div>
-                <div class="d-table-cell">5</div>
-                <div class="d-table-cell">If arrowShow is true, sets the arrow size in pixels</div>
-            </div>
-            <div class="d-table-row">
-                <div class="d-table-cell">position</div>
-                <div class="d-table-cell">
-                    <select class="position">
-                        <option>top left</option>
-                        <option>top center</option>
-                        <option>top right</option>
-                        <option>right top</option>
-                        <option>right middle</option>
-                        <option selected="selected">bottom left</option>
-                        <option>bottom left</option>
-                        <option>bottom center</option>
-                        <option>bottom right</option>
-                        <option>left top</option>
-                        <option>left middle</option>
-                        <option>left bottom</option>
-                    </select>
-                </div>
-                <div class="d-table-cell">"bottom left"</div>
-                <div class="d-table-cell">
-                    <p>Position of notification around target element.</p>
-                    <p>Possible values are</p>
-                    <ul>
-                        <li>top left</li>
-                        <li>top center</li>
-                        <li>top right</li>
-                        <li>right top</li>
-                        <li>right middle</li>
-                        <li>right bottom</li>
-                        <li>bottom left</li>
-                        <li>bottom center</li>
-                        <li>bottom right</li>
-                        <li>left top</li>
-                        <li>left middle</li>
-                        <li>left bottom</li>
-                    </ul>
-                </div>
-            </div>
-            <!-- 
-            // position defines the notification position though uses the defaults below
-            position: '...',
-            // default positions
-            elementPosition: 'bottom left',
-            globalPosition: 'top right',
-            // default style
-            style: 'bootstrap',
-            -->
-            <div class="d-table-row">
-                <div class="d-table-cell">className</div>
-                <div class="d-table-cell"><input type="text" class="className" value="error"></div>
-                <div class="d-table-cell">"error"</div>
-                <div class="d-table-cell">class name set for pop up element. Pre-defined classes are "error", "success", "warn", "info"</div>
-            </div>
-            <!--
-            // show animation
-            showAnimation: 'slideDown',
-            // show animation duration
-            showDuration: 400,
-            // hide animation
-            hideAnimation: 'slideUp',
-            // hide animation duration
-            hideDuration: 200,
-            -->
-            <div class="d-table-row">
-                <div class="d-table-cell">gap</div>
-                <div class="d-table-cell"><input type="text" class="gap" value="2"></div>
-                <div class="d-table-cell">2</div>
-                <div class="d-table-cell">padding between target element and notification in pixels</div>
-            </div>
-            <div><button type="button" class="btnShow">show notification</button></div>
+        <div class="output">
+            <input type="input" name="target">
         </div>
-        <!-- <div>
-            <pre></pre>
-        </div> -->
-        <script class="script1">
-            domready(()=>{
-                document.querySelector(".btnShow").addEventListener("click", ()=>{
-                    const msg = document.querySelector(".message").value;
-                    const options = {
-                        clickToHide: document.querySelector(".clickToHide").checked ? true : false,
-                        autoHide: document.querySelector(".autoHide").checked ? true : false,
-                        autoHideDelay: parseInt(document.querySelector(".autoHideDelay").value),
-                        arrowShow: document.querySelector(".arrowShow").checked ? true : false,
-                        arrowSize: parseInt(document.querySelector(".arrowSize").value),
-                        position: document.querySelector(".position").value,
-                        className: document.querySelector(".className").value,
-                        gap: document.querySelector(".gap").value,
-                    };
+        <div class="code">
+            <code>
+                <pre>
+                </pre>
+            </code>
+        </div>
 
-                    jsnotify(msg, document.querySelector(".target"), options);
-                })
+        <script>
+            document.querySelector(".demo .btnShow").addEventListener("click", (e)=>{
+                const options = {
+                    text: document.querySelector(".demo [name=text]").value,
+                    clickToHide: document.querySelector(".demo [name=clickToHide]").checked,
+                    autoHide: document.querySelector(".demo [name=autoHide]").checked,
+                    autoHideDelay: parseInt(document.querySelector(".demo [name=autoHideDelay]").value),
+                    arrowShow: document.querySelector(".demo [name=arrowShow]").checked,
+                    arrowSize: parseInt(document.querySelector(".demo [name=arrowSize]").value),
+                    position: document.querySelector(".demo [name=position]").value,
+                    className: document.querySelector(".demo [name=className]").value,
+                    gap: parseInt(document.querySelector(".demo [name=gap]").value),
+                }
+    
+                jsnotify(options.text, document.querySelector(".demo [name=target]"), options);
+    
+                let optionList = `{clickToHide: ${options.clickToHide ? "true" : "false"},\n`;
+                optionList += `autoHide: ${options.autoHide ? "true" : "false"},\n`;
+                optionList += `autoHideDelay: ${options.autoHideDelay}\n`;
+                optionList += `arrowShow: ${options.arrowShow ? "true" : "false"},\n`;
+                optionList += `arrowSize: ${options.arrowSize}\n`;
+                optionList += `position: "${options.position}"\n`;
+                optionList += `className: "${options.className}"\n`;
+                optionList += `gap: ${options.gap}}`;
+                let code = `jsnotify("${options.text}", document.querySelector(".demo [name=target]"), ${optionList});`;
+                document.querySelector(".demo .code pre").textContent = code;
             })
         </script>
-        <!-- <script>
-            domready(()=>{
-                document.querySelector("#usage pre").textContent = document.querySelector("#usage .script1").textContent;
-            })
-        </script> -->
     </div>
 
-    <div id="usage">
-        <h2>Usage</h2>
 
-
-        <h3>Load jsnotify css and javascript</h3>
-        <pre>
-&lt;head&gt;
-    &lt;link rel="stylesheet" href="path/to/jsnotify.css"&gt;
-    &lt;script defer src="path/to/jsnotify.js"&gt;&lt;/script&gt;
-&lt;/head&gt;
-        </pre>
-
-
-        <h3>Show a notification</h3>
-        <div>
-            <pre>
-&lt;script&gt;
-    jsnotify("This is a notification", document.querySelector("input.target"), {autoHide: false, position: "bottom left"});
-&lt;/script&gt;
-            </pre>
-        </div>
-
-
-        <h3>Syntax</h3>
-        <code>jsnotify(&lt;text message&gt;, &lt;target element&gt;, [options]</code>
-
-        <h3>Where:</h3>
+    <div class="positions">
+        <h2>Positions</h2>
         <table>
-            <tr>
-                <td>text message</td>
-                <td>The text to be displayed in notification</td>
-            </tr>
-            <tr>
-                <td>target element</td>
-                <td>The HTML element to serve as reference point for the notification's position</td>
-            </tr>
-            <tr>
-                <td>options</td>
-                <td>An object containing options for the notification. See <a href="#demo">demo</a> for reference</td>
-            </tr>
+            <tbody>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><input type="text" class="target"></td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody>
         </table>
-    </div>
 
-
-    <div id="todo">
-        <ul>
-            <li>Adjust notification position on page/element resize</li>
-            <li>Adjust notification position on scroll</li>
-        </ul>
+        <div><button type="button">Show</button></div>
+        <script>
+            document.querySelector('.positions button').addEventListener("click", (e)=> {
+                jsnotify("top left", document.querySelector(".positions .target"), {position: 'top left'});
+                jsnotify("top center", document.querySelector(".positions .target"), {position: 'top center'});
+                jsnotify("top right", document.querySelector(".positions .target"), {position: 'top right'});
+                jsnotify("bottom left", document.querySelector(".positions .target"), {position: 'bottom left'});
+                jsnotify("bottom center", document.querySelector(".positions .target"), {position: 'bottom center'});
+                jsnotify("bottom right", document.querySelector(".positions .target"), {position: 'bottom right'});
+                jsnotify("left top", document.querySelector(".positions .target"), {position: 'left top'});
+                jsnotify("left middle", document.querySelector(".positions .target"), {position: 'left middle'});
+                jsnotify("left bottom", document.querySelector(".positions .target"), {position: 'left bottom'});
+                jsnotify("right top", document.querySelector(".positions .target"), {position: 'right top'});
+                jsnotify("right middle", document.querySelector(".positions .target"), {position: 'right middle'});
+                jsnotify("right bottom", document.querySelector(".positions .target"), {position: 'right bottom'});
+            });
+        </script>
     </div>
-    <br/>
-    <br/>
-    <br/>
 </body>
 </html>

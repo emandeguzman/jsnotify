@@ -95,4 +95,5 @@ Possible values are
 
 
 ## TODO
+- Fix position when inside table
 - Adjust position when inside a scrollable element
