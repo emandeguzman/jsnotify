@@ -43,7 +43,7 @@
             width: 35%;
         }
         .positions .target {
-            padding: 4em;
+            padding: 6em;
         }
     </style>
 
@@ -145,8 +145,6 @@
                     gap: parseInt(document.querySelector(".demo [name=gap]").value),
                 }
     
-                jsnotify(options.text, document.querySelector(".demo [name=target]"), options);
-    
                 let optionList = `{clickToHide: ${options.clickToHide ? "true" : "false"},\n`;
                 optionList += `autoHide: ${options.autoHide ? "true" : "false"},\n`;
                 optionList += `autoHideDelay: ${options.autoHideDelay}\n`;
@@ -157,6 +155,8 @@
                 optionList += `gap: ${options.gap}}`;
                 let code = `jsnotify("${options.text}", document.querySelector(".demo [name=target]"), ${optionList});`;
                 document.querySelector(".demo .code pre").textContent = code;
+
+                jsnotify(options.text, document.querySelector(".demo [name=target]"), options);
             })
         </script>
     </div>
