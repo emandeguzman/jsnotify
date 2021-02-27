@@ -1,9 +1,9 @@
 # jsnotify
 Pure javascript notification based on [Notify.js](https://notifyjs.jpillora.com/)
 
-Note: this uses web components
+>Note: this uses web components
 
-
+[Demo](https://emandeguzman.github.io/jsnotify/demo.html)
 
 ## Usage
 ```
@@ -91,3 +91,8 @@ Possible values are
 - success
 - warn
 - info
+
+
+
+## TODO
+- Adjust position when inside a scrollable element
